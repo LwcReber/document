@@ -129,7 +129,7 @@ create-react-app 相信开发者已经非常熟悉，最近vite也火了，我�
       ...
       rollupOptions: {
             output: {
-              manualChunks: (id) => {
+              manualChu0nks: (id) => {
                 // 使用这种方式在项目里确实遇到过因为分割包后,因为加载问题出现一些报错的异常情况,所以声明了ignoreFile对有问题的文件不进行分割处理
                 if (id.includes('node_modules')) {
                   var fileName = id.toString().split('node_modules/')[1].split('/')[0].toString()
