@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[1437],{6036:e=>{e.exports=JSON.parse('{"label":"vite","permalink":"/document/blog/tags/vite","allTagsPath":"/document/blog/tags","count":1}')}}]);
