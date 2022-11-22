@@ -9,7 +9,7 @@ const config = {
   title: 'Reber Website',
   tagline: 'Welcome to my home',
   url: 'https://LwcReber.github.io',
-  baseUrl: '/',
+  baseUrl: '/document/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
