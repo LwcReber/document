@@ -2,11 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://LwcReber.github.io/document/blog</id>
     <title>Reber Website Blog</title>
-    <updated>2022-11-21T23:00:36.000Z</updated>
+    <updated>2023-04-04T15:32:45.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://LwcReber.github.io/document/blog"/>
     <subtitle>Reber Website Blog</subtitle>
     <icon>https://LwcReber.github.io/document/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[2023/使用yalc开发npm项目]]></title>
+        <id>/2023/使用yalc开发npm项目</id>
+        <link href="https://LwcReber.github.io/document/blog/2023/使用yalc开发npm项目"/>
+        <updated>2023-04-04T15:32:45.000Z</updated>
+        <summary type="html"><![CDATA[使用yalc开发npm项目]]></summary>
+        <content type="html"><![CDATA[<p>使用yalc开发npm项目</p><p>总结了使用yalc进行本地开发时遇到的问题，以及解决方案</p><p>问题点以及解决办法</p><ol><li><p>yalc push的是npm项目打包后的lib产物，每次修改代码都需要build，然后yalc push</p><p>针对每次都要手动更改的问题是必须要解决的，用<code>nodemon</code>就能解决这个问题，只要项目内代码有变更，则执行build命令，打包代码，并且最后用yalc push上传</p></li></ol><ol start="2"><li><p>yalc 包命名如果跟npm包一样，在使用yalc包的demo项目需要频繁修改package.json引入的方式</p><p>实际是package.json的name问题，解决方案是本地调试的使用一个name，正式包的用另一个name，但是为了避免要不断手动改name的麻烦，也是为了避免直接发布错的问题，编写一个webpack 自定义插件，直接修改package.json的name，同时区分开几个环境，不同环境不同name，使得demo发布到不同环境时也能使用不同的npm包。同时编写快速添加yalc和移除yalc包的命令，比如<code>npm run add</code>就能添加yalc包到项目内</p></li></ol><ol start="3"><li><p>demo项目无法识别yalc的更新从而触发热更新，需要手动重新run一次</p><p>同样是使用<code>nodemon</code> 进行处理，检测到.yalc文件夹发生变更就重新运行项目</p></li></ol><ol start="4"><li><p>demo重新运行打包时间比较慢，两边都要重新运行一次到刷新页面的用时比较长</p><p>demo项目可以使用vite作为构建工具，能够显著提高开发环境的构建速度，这样热更新的时间就少了一大半</p></li></ol><p>完整代码可看git地址：<a href="https://github.com/LwcReber/yalc-project" target="_blank" rel="noopener noreferrer">https://github.com/LwcReber/yalc-project</a></p>]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Vue2.7 新增的Composition API源码解读]]></title>
         <id>/2022/Vue2-7-新增的Composition-API源码解读</id>
