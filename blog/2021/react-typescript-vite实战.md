@@ -40,82 +40,97 @@ create-react-app 相信开发者已经非常熟悉，最近vite也火了，我�
 ### 配置项目文件夹别名
 
    在vite.config.ts中添加alias，同时tsconfig中也要对paths进行配置
-    ```js
-    resolve: {
-        alias: {
-          // 键必须以斜线开始和结束
-          '@': path.resolve(__dirname, './src')
-        }
-      }
-    ```
+
+```typescript
+resolve: {
+  alias: {
+    // 键必须以斜线开始和结束
+    '@': path.resolve(__dirname, './src')
+  }
+}
+```
+
+
 
 ### 对antd主题色进行配置
-    antd的主题色这里分几种情况
 
-    1. #### 样式按需加载，但不支持主题色变量配置
-        使用`vite-plugin-importer`(需要通过npm安装)在vite中的plugin配置即可，页面也无需引入antd的css
-        ```js
-        usePluginImport({
-          libraryName: "antd",
-          libraryDirectory: "es",
-          style: "css"
-        })
-        ```
+antd的主题色这里分几种情况
 
-    2. #### 样式全部引入，支持主题色变量配置
-        在上面1的基础，在vite中添加
-        ```js
-        css: {
-          preprocessorOptions: {
-            less: {
-              javascriptEnabled: true,
-                modifyVars: {
-                  "primary-color": "#1DA57A",
-                  "link-color": "#1DA57A",
-                  "border-radius-base": "2px"
-                }
-            }
-          }
-        } 
-        ```
-        同时在main.tsx中引入antd的样式`import 'antd/dist/antd.less'  `注意是less，css无效，因为上面配置的是less
+1. #### 样式按需加载，但不支持主题色变量配置
 
-    3. #### 自定义主题样式配置，支持样式按需加载
-        使用`vite-plugin-imp`在plugin中配置
-        ```js
-          import fs from 'fs'
-          import lessToJS from 'less-vars-to-js'
-          
-          var themeVariables = lessToJS(
-            fs.readFileSync(path.resolve(__dirname, 'src/styles/variables.less'), 'utf8')
-          )
-          
-          defineConfig({
-            plugins: [
-              ...
-              vitePluginImp({
-                libList: [
-                  {
-                    libName: "antd",
-                    style: (name) => \`antd/es/${name}/style` // 这个地方样式实现按需引入
-                  }
-                ]
-                })
-              ...
-            ]
-          })
-        ```
-        css配置改为
-        ```js
-          css: {
-            preprocessorOptions: {
-              less: {
-                javascriptEnabled: true,
-                modifyVars: themeVariables
-              }
-            }
-          }
-        ```
+   ​    使用`vite-plugin-importer`(需要通过npm安装)在vite中的plugin配置即可，页面也无需引入antd的css
+
+   ```js
+    usePluginImport({
+      libraryName: "antd",
+      libraryDirectory: "es",
+      style: "css"
+    })
+   ```
+
+2. 样式全部引入，支持主题色变量配置
+
+   在上面1的基础，在vite中添加
+
+   ```js
+   css: {
+     preprocessorOptions: {
+       less: {
+         javascriptEnabled: true,
+           modifyVars: {
+             "primary-color": "#1DA57A",
+             "link-color": "#1DA57A",
+             "border-radius-base": "2px"
+           }
+       }
+     }
+   } 
+   ```
+
+   同时在main.tsx中引入antd的样式`import 'antd/dist/antd.less'  `注意是less，css无效，因为上面配置的是less
+
+3. 自定义主题样式配置，支持样式按需加载
+
+   使用`vite-plugin-imp`在plugin中配置
+
+   ```js
+   import fs from 'fs'
+   import lessToJS from 'less-vars-to-js'
+         
+   var themeVariables = lessToJS(
+   	fs.readFileSync(path.resolve(__dirname, 'src/styles/variables.less'), 'utf8')
+   )
+         
+   defineConfig({
+     plugins: [
+      ...
+       vitePluginImp({
+         libList: [
+            {
+              libName: "antd",
+              style: (name) => \`antd/es/${name}/style` // 这个地方样式实现按需引入
+             }
+          	]
+      		})
+     	...
+   	]
+   })
+   ```
+
+   css配置改为
+
+   ```js
+   css: {
+     preprocessorOptions: {
+       less: {
+         javascriptEnabled: true,
+         modifyVars: themeVariables
+       }
+     }
+   }
+   ```
+
+   
 
  ### 配置多环境时也是比较方便，在添加.env.xxx的文件即可，然后在build的命令上添加--mode xxx的方式
 
@@ -123,27 +138,29 @@ create-react-app 相信开发者已经非常熟悉，最近vite也火了，我�
 
  #### build
    在build的时候发现打包后的文件比较大，在build配置中添加rollupOptions
-    ```js
-      // 忽略某些文件不分割
-      var ignoreFile = []
-      ...
-      rollupOptions: {
-            output: {
-              manualChu0nks: (id) => {
-                // 使用这种方式在项目里确实遇到过因为分割包后,因为加载问题出现一些报错的异常情况,所以声明了ignoreFile对有问题的文件不进行分割处理
-                if (id.includes('node_modules')) {
-                  var fileName = id.toString().split('node_modules/')[1].split('/')[0].toString()
-                  if (ignoreFile.indexOf(fileName) === -1) {
-                    return fileName
-                  }
-                }
-              }
-            }
-          }
-        ...
-     ```
 
-   使用了代码分割后，react，react-dom，antd等都被单独打包出来了
+  ```js
+// 忽略某些文件不分割
+var ignoreFile = []
+  ...
+  rollupOptions: {
+    output: {
+      manualChu0nks: (id) => {
+        // 使用这种方式在项目里确实遇到过因为分割包后,因为加载问题出现一些报错的异常情况,所以声明了ignoreFile对有问题的文件不进行分割处理
+        if (id.includes('node_modules')) {
+        	var fileName = id.toString().split('node_modules/')[1].split('/')[0].toString()
+        	if (ignoreFile.indexOf(fileName) === -1) {
+        		return fileName
+        	}
+      }
+    }
+  }
+}
+  ```
+
+
+
+   使用了代码分割后，react，react-dom，antd等都被单独打包出来
 
 
 
