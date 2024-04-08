@@ -1,3 +1,9 @@
+---
+title: Vue2.7 使用 h函数报错解决办法
+date: 2024-4-8 23:21:00
+tags: [Vue]
+---
+
 # Vue2.7 使用 h函数报错解决办法
 
 项目使用 element-ui，使用了 MessageBox 弹框组件
